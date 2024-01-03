@@ -2,6 +2,16 @@
 const toggleModeBtn = document.getElementById('toggle-mode');
 const boardsContainer = document.getElementById('boards-container');
 
+// Function to retrieve boards from local storage and render them on the page
+function renderBoardsFromLocalStorage() {
+    const boards = JSON.parse(localStorage.getItem('boards')) || [];
+
+    boards.forEach(boardData => {
+        const boardName = boardData.name;
+        //const boardId = boardData.id;
+createBoard(boardName);
+    });
+}
 
 
 // Function to create a new board
@@ -22,6 +32,24 @@ function createBoard(boardName) {
         </div>
     `;
     boardsContainer.appendChild(board);
+    const boardId = `board_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+
+    // Create an object to represent the board and its items
+    const boardData = {
+        name: boardName,
+        id: boardId,
+        items: [] // To store the list of items
+    };
+
+    // Save the board data to local storage
+    // Check if boards exist in local storage
+    let boards = JSON.parse(localStorage.getItem('boards')) || [];
+
+    // Add the new board to the list of boards
+    boards.push(boardData);
+
+    // Save updated boards back to local storage
+    localStorage.setItem('boards', JSON.stringify(boards));
 
     // Add event listener for adding to-do items
     const addBtn = board.querySelector('.add-btn');
@@ -122,19 +150,6 @@ function createBoard(boardName) {
     //const dueDateDisplay = board.querySelector('.due-date-display');
     dueDateDisplay.textContent = `Due Date: ${formattedDueDate}`;
 
-    // // Function to handle the toggle switch
-    // switchInput.addEventListener('change', function () {
-    //     const isChecked = switchInput.checked;
-    //     if (isChecked) {
-    //         // Disable the board or add a disabled class
-    //         board.classList.add('disabled');
-    //     } else {
-    //         // Enable the board
-    //         board.classList.remove('disabled');
-    //     }
-    // });
-
-
     // Get the complete button element
     const completeBtn = board.querySelector('.complete-btn');
 
@@ -147,25 +162,25 @@ function createBoard(boardName) {
     board.addEventListener('dblclick', function () {
         board.classList.remove('disabled');
     });
-    // Add three realistic items to each board
-    //const todoList = board.querySelector('.todo-list');
-    for (let i = 0; i < 3; i++) {
-        const todoItem = document.createElement('li');
-        todoItem.className = 'list-group-item';
-        todoItem.textContent = generateRealisticTask(boardName);
-        const deleteBtn = createDeleteButton(todoItem);
-        //const editBtn = createEditButton(todoItem);
-        todoItem.prepend(deleteBtn);
+    // // Add three realistic items to each board
+    // //const todoList = board.querySelector('.todo-list');
+    // for (let i = 0; i < 3; i++) {
+    //     const todoItem = document.createElement('li');
+    //     todoItem.className = 'list-group-item';
+    //     todoItem.textContent = generateRealisticTask(boardName);
+    //     const deleteBtn = createDeleteButton(todoItem);
+    //     //const editBtn = createEditButton(todoItem);
+    //     todoItem.prepend(deleteBtn);
 
-        todoList.appendChild(todoItem);
-    }
+    //     todoList.appendChild(todoItem);
+    // }
 }
 
 // Function to toggle between light and dark mode
 function toggleMode() {
     const body = document.body;
     body.classList.toggle('dark-mode');
-// Toggle todo list styles
+    // Toggle todo list styles
     const todoList = document.querySelectorAll('.todo-list, .todo-list li');
     todoList.forEach(item => {
         item.classList.toggle('dark-mode-todo');
@@ -217,18 +232,17 @@ function generateRealisticTask(boardName) {
     }
 }
 
-// Rest of your existing code...
-
+window.addEventListener('load', renderBoardsFromLocalStorage);
 // Example: Adding 3 items to specified boards
-createBoard('Work');
-createBoard('Personal');
-createBoard('Meeting');
-createBoard('Project');
-createBoard('Study');
-createBoard('Shopping');
-createBoard('Vacation');
-createBoard('Home');
-const createBoardBtn = document.getElementById('createBoardBtn');
+// createBoard('Work');
+// createBoard('Personal');
+// createBoard('Meeting');
+// createBoard('Project');
+// createBoard('Study');
+// createBoard('Shopping');
+// createBoard('Vacation');
+// createBoard('Home');
+// const createBoardBtn = document.getElementById('createBoardBtn');
 createBoardBtn.addEventListener('click', createNewBoard);
 
 
