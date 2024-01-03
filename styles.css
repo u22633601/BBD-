@@ -1,0 +1,156 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+  color: #333;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+header {
+  background-color: #fff;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  margin: 0;
+}
+
+button {
+  cursor: pointer;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+main {
+  padding: 20px;
+}
+
+.card {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  transition: box-shadow 0.3s;
+}
+
+.card:hover {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Light/Dark Mode */
+.dark-mode {
+  background-color: #333;
+  color: #fff;
+}
+
+.dark-mode header {
+  background-color: #222;
+}
+
+/* Media Query for Responsive Design */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* Light/Dark Mode Styles (Combined) */
+body {
+  background-color: #f4f4f4; /* Light mode */
+  color: #333;
+}
+
+body.dark-mode {
+  background-color: #333; /* Dark mode */
+  color: #fff;
+}
+
+.card {
+  background-color: #fff; /* Light mode */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode .card {
+  background-color: #444; /* Dark mode */
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+}
+
+.btn,
+input[type="text"],
+.add-btn,
+header button {
+  /* background-color: #007bff; (commented out) */
+  color: #fff;
+}
+
+body.dark-mode .btn,
+body.dark-mode input[type="text"],
+body.dark-mode .add-btn,
+body.dark-mode header button {
+  background-color: #212529; /* Dark mode */
+}
+
+.disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Completed Checkbox and Edit Button */
+.completed-switch-container {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+/* Adjust Bootstrap Switch appearance */
+.completed-switch {
+  /* Custom styles */
+}
+
+.edit-board-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.card {
+  position: relative;
+}
+
+.completed-checkbox {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+}
+
+/* Delete Button */
+.delete-btn {
+  background-color: transparent;
+  border: none;
+  color: #dc3545;
+  cursor: pointer;
+  font-size: 1.2rem;
+  margin-right: 5px;
+}
+
+body.dark-mode .list-group-item {
+  /* Dark mode todo list item styles */
+  background-color: #555;
+  color: #fff;
+}
+
+body.dark-mode .list-group-item .delete-btn {
+  /* Dark mode delete button styles */
+  color: #ffcccc;
+}
