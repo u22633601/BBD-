@@ -104,7 +104,7 @@ function createBoard(boardName) {
             //todoItem.appendChild(dueDateBtn);
             //todoItem.appendChild(editBtn);
 
-        alert(todoText);
+            alert(todoText);
 
             input.value = '';
         }
@@ -161,7 +161,22 @@ function createBoard(boardName) {
     });
     return newBoard;
 }
+// Function to remove a board from local storage by name
+function removeBoardFromLocalStorage(boardName) {
+    // Retrieve boards from local storage
+    let boards = JSON.parse(localStorage.getItem('boards')) || [];
 
+    // Find the index of the board to remove
+    const indexToRemove = boards.findIndex(board => board.name === boardName);
+
+    if (indexToRemove !== -1) {
+        // Remove the board from the array
+        boards.splice(indexToRemove, 1);
+
+        // Save the updated boards array back to local storage
+        localStorage.setItem('boards', JSON.stringify(boards));
+    }
+}
 // Function to toggle between light and dark mode
 function toggleMode() {
     const body = document.body;
