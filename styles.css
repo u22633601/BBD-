@@ -31,10 +31,6 @@ button {
   transition: background-color 0.3s, color 0.3s;
 }
 
-/* button:hover {
-    background-color: #0056b3;
-} */
-
 main {
   padding: 20px;
 }

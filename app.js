@@ -1,18 +1,14 @@
 // Get elements from the DOM
 const toggleModeBtn = document.getElementById('toggle-mode');
 const boardsContainer = document.getElementById('boards-container');
-
+let boards = JSON.parse(localStorage.getItem('boards')) || [];
 // Function to retrieve boards from local storage and render them on the page
 function renderBoardsFromLocalStorage() {
-    const boards = JSON.parse(localStorage.getItem('boards')) || [];
-
     boards.forEach(boardData => {
         const boardName = boardData.name;
-        //const boardId = boardData.id;
-createBoard(boardName);
+        createBoard(boardName, boardData);
     });
 }
-
 
 // Function to create a new board
 function createBoard(boardName) {
@@ -38,7 +34,8 @@ function createBoard(boardName) {
     const boardData = {
         name: boardName,
         id: boardId,
-        items: [] // To store the list of items
+        items: [], // To store the list of items
+        dueDate: '' // To store the due date
     };
 
     // Save the board data to local storage
@@ -102,10 +99,12 @@ function createBoard(boardName) {
             //const editBtn = createEditButton(todoItem);
             todoItem.prepend(deleteBtn);
             todoList.appendChild(todoItem);
+            boardData.items.add(todoText);
 
             //todoItem.appendChild(dueDateBtn);
             //todoItem.appendChild(editBtn);
 
+        alert(todoText);
 
             input.value = '';
         }
@@ -142,8 +141,6 @@ function createBoard(boardName) {
     board.querySelector('.card-header').appendChild(deleteBoardBtn);
 
     // // Get the switch element from the board
-    // const switchInput = board.querySelector('.form-check-input');
-    // Realistic due date for each board
     const today = new Date();
     const dueDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + Math.floor(Math.random() * 14) + 7);
     const formattedDueDate = dueDate.toISOString().split('T')[0]; // Format as YYYY-MM-DD
@@ -162,18 +159,7 @@ function createBoard(boardName) {
     board.addEventListener('dblclick', function () {
         board.classList.remove('disabled');
     });
-    // // Add three realistic items to each board
-    // //const todoList = board.querySelector('.todo-list');
-    // for (let i = 0; i < 3; i++) {
-    //     const todoItem = document.createElement('li');
-    //     todoItem.className = 'list-group-item';
-    //     todoItem.textContent = generateRealisticTask(boardName);
-    //     const deleteBtn = createDeleteButton(todoItem);
-    //     //const editBtn = createEditButton(todoItem);
-    //     todoItem.prepend(deleteBtn);
-
-    //     todoList.appendChild(todoItem);
-    // }
+    return newBoard;
 }
 
 // Function to toggle between light and dark mode
@@ -205,31 +191,15 @@ if (isDarkMode) {
 function createNewBoard() {
     const boardName = prompt('Enter board name:');
     if (boardName) {
-        createBoard(boardName);
+        const newBoard = createBoard(boardName);
+        boards.push(newBoard);
+        saveBoardsToLocalStorage();
     }
 }
 
-// Function to generate realistic task names based on the board name
-function generateRealisticTask(boardName) {
-    // Define realistic task names based on the board name or any other logic
-    const realisticTasks = {
-        'Work': ['Prepare presentation', 'Review reports', 'Schedule meetings'],
-        'Personal': ['Call family', 'Go for a run', 'Read a book'],
-        'Meeting': ['Prepare agenda', 'Send invites', 'Review previous meeting notes'],
-        'Project': ['Define milestones', 'Develop wireframes', 'Code implementation'],
-        'Study': ['Read research papers', 'Write essay', 'Solve practice problems'],
-        'Shopping': ['Groceries', 'Clothing', 'Household items'],
-        'Vacation': ['Book flights', 'Plan itinerary', 'Pack luggage'],
-        'Home': ['Clean the house', 'Organize closet', 'Fix leaking faucet']
-    };
-
-    // Get realistic tasks based on the boardName
-    const tasks = realisticTasks[boardName];
-    if (tasks) {
-        return tasks[Math.floor(Math.random() * tasks.length)];
-    } else {
-        return 'Generic task';
-    }
+// Function to save boards to local storage
+function saveBoardsToLocalStorage() {
+    localStorage.setItem('boards', JSON.stringify(boards));
 }
 
 window.addEventListener('load', renderBoardsFromLocalStorage);
